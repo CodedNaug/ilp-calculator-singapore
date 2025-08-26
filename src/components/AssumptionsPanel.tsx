@@ -76,8 +76,8 @@ export default function AssumptionsPanel(props: Props) {
             onChange={(e) => applyPreset(e.target.value as ProductPreset)}
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
           >
-            <option value="GWA4">Great Eastern GWA4</option>
             <option value="Typical ILP">Typical ILP</option>
+            <option value="GWA4">Great Eastern GWA4</option>
           </select>
         </label>
 
