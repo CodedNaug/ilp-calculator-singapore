@@ -52,6 +52,12 @@ export default function AssumptionsPanel(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monthlyPremium]);
 
+  const [yrsText, setYrsText] = useState<string>(String(years ?? 0));
+  useEffect(() => {
+    if (yrsText !== "") setYrsText(String(years));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [years]);
+
   // === Auto-calc ILP Net Return (read-only) ===
   // Realistic defaults (you can later expose these if needed)
   const FUND_TER = 1.2;   // % p.a.
@@ -100,14 +106,22 @@ export default function AssumptionsPanel(props: Props) {
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
           />
         </label>
-
         <label className="flex flex-col gap-1">
           <span className="text-sm text-neutral-400">Years</span>
           <input
             type="number"
-            value={years}
+            value={yrsText}
             placeholder="0"
-            onChange={(e) => setYears(Math.min(50, Math.max(1, Number(e.target.value))))}
+            onChange={(e) => {
+              const val = e.target.value;
+              setYrsText(val);
+              if (val === "") {
+                setYears(0); // treat empty as 0 until typed
+              } else {
+                const num = Math.min(50, Math.max(1, Number(val)));
+                if (!Number.isNaN(num)) setYears(num);
+              }
+            }}
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
           />
         </label>
