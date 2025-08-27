@@ -66,9 +66,9 @@ export default function AssumptionsPanel(props: Props) {
   }, [headlineGrossPct, setIlpNetReturnPct]); // bonuses removed from deps
 
   return (
-    <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-      <h2 className="text-xl font-semibold mb-4">Assumptions</h2>
-      <div className="grid sm:grid-cols-2 gap-4">
+    <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 sm:p-5">
+      <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Assumptions</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <label className="flex flex-col gap-1">
           <span className="text-sm text-neutral-400">Product Preset</span>
           <select

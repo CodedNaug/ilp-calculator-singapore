@@ -96,8 +96,8 @@ export default function ILPTruthPage() {
         </div>
       </header>
 
-      <section className="px-6 py-6 md:py-10">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-6">
+      <section className="px-4 py-6 md:py-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <AssumptionsPanel
               productPreset={productPreset}
@@ -128,8 +128,9 @@ export default function ILPTruthPage() {
               setConservativePitch={setConservativePitch}
             />
           </div>
-
-          <SummaryCards years={years} monthlyPremium={monthlyPremium} totals={totals} />
+          <div className="lg:col-span-1">
+            <SummaryCards years={years} monthlyPremium={monthlyPremium} totals={totals} />
+          </div>
         </div>
       </section>
 
