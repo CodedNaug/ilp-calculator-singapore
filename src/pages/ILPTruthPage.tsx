@@ -81,6 +81,11 @@ export default function ILPTruthPage() {
     setHeadlineGrossPct(6);
   };
 
+  React.useEffect(() => {
+    applyPreset(productPreset);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <header className="px-6 py-10 md:py-14 bg-gradient-to-b from-neutral-900 to-neutral-950">
