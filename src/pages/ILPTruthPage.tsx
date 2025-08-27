@@ -9,7 +9,7 @@ export default function ILPTruthPage() {
   const [monthlyPremium, setMonthlyPremium] = useState(1000);
   const [years, setYears] = useState(20);
   const [planChoice, setPlanChoice] = useState<PlanChoice>(15);
-  const [productPreset, setProductPreset] = useState<ProductPreset>("GWA4");
+  const [productPreset, setProductPreset] = useState<ProductPreset>("Typical ILP");
 
   const [y1AllocPct, setY1AllocPct] = useState(100);
   const [y2AllocPct, setY2AllocPct] = useState(100);
