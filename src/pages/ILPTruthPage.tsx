@@ -23,6 +23,7 @@ export default function ILPTruthPage() {
   const [ilpNetReturnPct, setIlpNetReturnPct] = useState(4);
   const [etfNetReturnPct, setEtfNetReturnPct] = useState(8);
   const [headlineGrossPct, setHeadlineGrossPct] = useState(8);
+  const [monthlyTermPremium, setMonthlyTermPremium] = useState(200);
 
   const ilpAllocationSchedulePct = useMemo(() => {
     const arr = [y1AllocPct, y2AllocPct];
@@ -32,6 +33,7 @@ export default function ILPTruthPage() {
 
   const { data, totals } = useProjectionEngine({
     monthlyPremium,
+    monthlyTermPremium,
     years,
     planChoice,
     ilpAllocationSchedulePct,
@@ -131,10 +133,12 @@ export default function ILPTruthPage() {
               setHeadlineGrossPct={setHeadlineGrossPct}
               setOptimisticAgentPitch={setOptimisticAgentPitch}
               setConservativePitch={setConservativePitch}
+              monthlyTermPremium={monthlyTermPremium}
+              setMonthlyTermPremium={setMonthlyTermPremium}
             />
           </div>
           <div className="lg:col-span-1">
-            <SummaryCards years={years} monthlyPremium={monthlyPremium} totals={totals} />
+            <SummaryCards years={years} monthlyPremium={monthlyPremium} monthlyTermPremium={monthlyTermPremium} totals={totals} />
           </div>
         </div>
       </section>

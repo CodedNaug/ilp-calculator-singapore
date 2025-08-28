@@ -30,7 +30,8 @@ interface Props {
   setEtfNetReturnPct: (v: number) => void;
   headlineGrossPct: number;
   setHeadlineGrossPct: (v: number) => void;
-
+  monthlyTermPremium: number;
+  setMonthlyTermPremium: (v: number) => void;
   setOptimisticAgentPitch: () => void;
   setConservativePitch: () => void;
 }
@@ -42,7 +43,7 @@ export default function AssumptionsPanel(props: Props) {
     y1AllocPct, setY1AllocPct, y2AllocPct, setY2AllocPct, laterAllocPct, setLaterAllocPct,
     welcomeBonusPct, setWelcomeBonusPct, campaignBonusPct, setCampaignBonusPct,
     ilpNetReturnPct, setIlpNetReturnPct, etfNetReturnPct, setEtfNetReturnPct, headlineGrossPct, setHeadlineGrossPct,
-    setOptimisticAgentPitch, setConservativePitch
+    setOptimisticAgentPitch, setConservativePitch, monthlyTermPremium, setMonthlyTermPremium,
   } = props;
 
   // Local text state for Monthly Premium so placeholder "0" shows when empty
@@ -198,7 +199,26 @@ export default function AssumptionsPanel(props: Props) {
             Typical net return for investing in S&P500 = ~7–9%
           </span>
         </label>
-
+        <label className="flex flex-col gap-1">
+          <span className="text-sm text-neutral-400">Monthly Term Plan Premium</span>
+          <input
+            type="number"
+            value={String(monthlyTermPremium)}
+            placeholder="0"
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val === "") {
+                setMonthlyTermPremium(0);
+              } else {
+                setMonthlyTermPremium(Math.max(0, Number(val)));
+              }
+            }}
+            className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
+          />
+          <span className="text-xs text-neutral-500">
+            Deducted from total before ETF investing.
+          </span>
+        </label>
         <div className="sm:col-span-2 border-t border-neutral-800 my-2" />
 
         <div className="flex gap-2">

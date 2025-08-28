@@ -3,7 +3,8 @@ import { p2d } from "../utils/percent";
 import type { PlanChoice } from "../types";
 
 export type EngineInputs = {
-  monthlyPremium: number;
+  monthlyPremium: number;       // overall monthly budget
+  monthlyTermPremium: number;   // NEW: monthly term insurance cost (deducted from ETF invest)
   years: number;
   planChoice: PlanChoice;
   ilpAllocationSchedulePct: number[]; // per-year %
@@ -18,12 +19,22 @@ export type EngineInputs = {
 
 export function useProjectionEngine(inputs: EngineInputs) {
   const {
-    monthlyPremium, years, planChoice, ilpAllocationSchedulePct,
-    welcomeBonusPct, campaignBonusPct, loyaltyRatePct, premiumBonusRatePct,
-    ilpNetReturnPct, etfNetReturnPct, headlineGrossPct,
+    monthlyPremium,
+    monthlyTermPremium, // NEW
+    years,
+    planChoice,
+    ilpAllocationSchedulePct,
+    welcomeBonusPct,
+    campaignBonusPct,
+    loyaltyRatePct,
+    premiumBonusRatePct,
+    ilpNetReturnPct,
+    etfNetReturnPct,
+    headlineGrossPct,
   } = inputs;
 
   const annualPremium = monthlyPremium * 12;
+  const annualTerm = Math.max(0, monthlyTermPremium) * 12; // clamp negative just in case
   const premiumBonusStartByPlan: Record<PlanChoice, number> = { 5: 6, 10: 11, 15: 16 };
 
   const data = useMemo(() => {
@@ -45,11 +56,16 @@ export function useProjectionEngine(inputs: EngineInputs) {
     const loyaltyRate = p2d(loyaltyRatePct);
     const premiumBonusRate = p2d(premiumBonusRatePct);
 
+    // Keep ETF total outlay equal to ILP budget by deducting term cost first
+    // i.e., ETF invest each year = annualPremium - annualTerm (not below zero)
+    const annualEtfInvest = Math.max(0, annualPremium - annualTerm);
+
     for (let y = 1; y <= years; y++) {
       const allocPct = ilpAllocationSchedulePct[Math.min(y - 1, ilpAllocationSchedulePct.length - 1)] ?? 0;
       const alloc = p2d(allocPct);
+
       const ilpInvest = annualPremium * alloc;
-      const etfInvest = annualPremium;
+      const etfInvest = annualEtfInvest; // UPDATED: after term deduction
 
       const welcomeUnits = y === 1 ? ilpInvest * p2d(welcomeBonusPct) : 0;
       const campaignUnits = y === 1 ? ilpInvest * p2d(campaignBonusPct) : 0;
@@ -79,16 +95,33 @@ export function useProjectionEngine(inputs: EngineInputs) {
     }
 
     return rows;
-  }, [years, monthlyPremium, planChoice, ilpAllocationSchedulePct, welcomeBonusPct, campaignBonusPct, premiumBonusRatePct, ilpNetReturnPct, etfNetReturnPct, headlineGrossPct, loyaltyRatePct]);
+  }, [
+    years,
+    monthlyPremium,
+    monthlyTermPremium, // NEW dep
+    planChoice,
+    ilpAllocationSchedulePct,
+    welcomeBonusPct,
+    campaignBonusPct,
+    premiumBonusRatePct,
+    ilpNetReturnPct,
+    etfNetReturnPct,
+    headlineGrossPct,
+    loyaltyRatePct
+  ]);
 
   const finalRow = data[data.length - 1];
-  const totalPaid = annualPremium * years;
+  const totalPaid = annualPremium * years;                 // same total budget as ILP scenario
+  const termPaid = annualTerm * years;                     // NEW: show term cost if needed in UI
   const ilpEnd = finalRow?.ilpValue ?? 0;
   const etfEnd = finalRow?.etfValue ?? 0;
   const gap = etfEnd - ilpEnd;
   const investedToDateILP = finalRow?.ilpInvestedToDate ?? 0;
   const investedToDateETF = finalRow?.etfInvestedToDate ?? 0;
-  const totalWelcome = annualPremium * p2d(ilpAllocationSchedulePct[0] ?? 0) * (p2d(welcomeBonusPct) + p2d(campaignBonusPct));
+  const totalWelcome =
+    annualPremium *
+    p2d(ilpAllocationSchedulePct[0] ?? 0) *
+    (p2d(welcomeBonusPct) + p2d(campaignBonusPct));
 
   const breakEvenYear = (() => {
     const threshold = monthlyPremium;
@@ -98,6 +131,16 @@ export function useProjectionEngine(inputs: EngineInputs) {
 
   return {
     data,
-    totals: { totalPaid, ilpEnd, etfEnd, gap, investedToDateILP, investedToDateETF, totalWelcome, breakEvenYear },
+    totals: {
+      totalPaid,
+      termPaid,              // NEW field (optional for display)
+      ilpEnd,
+      etfEnd,
+      gap,
+      investedToDateILP,
+      investedToDateETF,
+      totalWelcome,
+      breakEvenYear
+    },
   } as const;
 }
