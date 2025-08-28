@@ -216,7 +216,7 @@ export default function AssumptionsPanel(props: Props) {
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
           />
           <span className="text-xs text-neutral-500">
-            Deducted from total before ETF investing.
+            A typical S$500k term life policy in Singapore costs about S$19–34/month, with actual premiums varying by age, health, gender, coverage, and term length.
           </span>
         </label>
         <div className="sm:col-span-2 border-t border-neutral-800 my-2" />

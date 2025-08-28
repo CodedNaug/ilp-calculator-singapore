@@ -23,7 +23,7 @@ export default function ILPTruthPage() {
   const [ilpNetReturnPct, setIlpNetReturnPct] = useState(4);
   const [etfNetReturnPct, setEtfNetReturnPct] = useState(8);
   const [headlineGrossPct, setHeadlineGrossPct] = useState(8);
-  const [monthlyTermPremium, setMonthlyTermPremium] = useState(200);
+  const [monthlyTermPremium, setMonthlyTermPremium] = useState(30);
 
   const ilpAllocationSchedulePct = useMemo(() => {
     const arr = [y1AllocPct, y2AllocPct];
