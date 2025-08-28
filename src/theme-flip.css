@@ -1,0 +1,89 @@
+/* Light/dark variables (handy for tooltips etc.) */
+:root {
+    --bg: #0b0b0f;
+    --text: #f5f5f7;
+    --card: #111827;
+    --border: #333640;
+    color-scheme: dark;
+}
+
+html[data-theme="light"] {
+    --bg: #ffffff;
+    --text: #0b0b0f;
+    --card: #f5f5f6;
+    --border: #e5e7eb;
+    color-scheme: light;
+}
+
+/* Make the doc background/text follow vars (just in case) */
+html,
+body,
+#root {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* === FLIP THE EXACT TAILWIND CLASSES YOU'RE USING === */
+/* backgrounds */
+html[data-theme="light"] .bg-neutral-950 {
+    background-color: #ffffff !important;
+}
+
+html[data-theme="light"] .bg-neutral-900 {
+    background-color: #f5f5f6 !important;
+}
+
+html[data-theme="light"] .bg-neutral-800 {
+    background-color: #e5e7eb !important;
+}
+
+/* text */
+html[data-theme="light"] .text-neutral-100 {
+    color: #0b0b0f !important;
+}
+
+html[data-theme="light"] .text-neutral-300 {
+    color: #1f2937 !important;
+}
+
+html[data-theme="light"] .text-neutral-400 {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .text-neutral-500 {
+    color: #475569 !important;
+}
+
+/* borders */
+html[data-theme="light"] .border-neutral-800 {
+    border-color: #e5e7eb !important;
+}
+
+html[data-theme="light"] .border-neutral-700 {
+    border-color: #d1d5db !important;
+}
+
+/* gradients on <header class="... bg-gradient-to-b from-neutral-900 to-neutral-950"> */
+html[data-theme="light"] .from-neutral-900 {
+    --tw-gradient-from: #f3f4f6 !important;
+    --tw-gradient-to: rgb(243 244 246 / 0) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html[data-theme="light"] .to-neutral-950 {
+    --tw-gradient-to: #ffffff !important;
+}
+
+/* inputs/selects readable in light */
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+    color: #0b0b0f !important;
+}
+
+/* Recharts tooltip (your chart sets a dark inline style) */
+.recharts-default-tooltip {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+}

@@ -1,12 +1,29 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ILP vs Term + ETF</title>
-  </head>
-  <body class="bg-neutral-950">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    (function () {
+      try {
+        var mode = localStorage.getItem('ilp_theme_mode') || 'auto';
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = (mode === 'auto') ? (prefersDark ? 'dark' : 'light') : mode; // mode is 'light' or 'dark'
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ILP vs Term + ETF</title>
+</head>
+
+<body class="bg-neutral-950">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
