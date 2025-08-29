@@ -4,6 +4,7 @@ import SummaryCards from "../components/SummaryCards";
 import GrowthChart from "../components/GrowthChart";
 import { useProjectionEngine } from "../hooks/useProjectionEngine";
 import type { PlanChoice, ProductPreset } from "../types";
+import FAQ from "../components/FAQ";
 
 export default function ILPTruthPage() {
   const [monthlyPremium, setMonthlyPremium] = useState(1000);
@@ -92,13 +93,23 @@ export default function ILPTruthPage() {
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <header className="px-6 py-10 md:py-14 bg-gradient-to-b from-neutral-900 to-neutral-950">
         <div className="max-w-6xl mx-auto text-center">
+          {/* Main SEO headline */}
           <h1 className="text-3xl md:text-5xl font-bold max-w-3xl mx-auto">
-            ILP vs Term + Low-Cost ETF
+            ILP Calculator for Singapore
           </h1>
-          <p className="mt-3 md:mt-4 text-neutral-300 max-w-3xl mx-auto">
-            Compare presets: <strong>GWA4</strong> vs <strong>Typical ILP</strong>.
-            Defaults mirror GWA4 (100% allocation, welcome/campaign bonuses,
-            premium/loyalty bonuses). Adjust anything to replicate a live pitch.
+
+          {/* Supporting headings */}
+          <h2 className="mt-4 text-xl md:text-2xl font-semibold">
+            Compare ILPs vs Term + ETF
+          </h2>
+          <h2 className="mt-2 text-lg md:text-xl text-neutral-300">
+            How much do ILPs really cost?
+          </h2>
+
+          <p className="mt-4 text-neutral-300 max-w-3xl mx-auto">
+            Free calculator to model Investment-Linked Policies (ILPs) in Singapore.
+            Adjust premiums, bonuses, and fees to see how ILPs compare against
+            buying Term Insurance plus investing in low-cost ETFs.
           </p>
         </div>
       </header>
@@ -148,6 +159,8 @@ export default function ILPTruthPage() {
           <GrowthChart data={data} />
         </div>
       </section>
+
+      <FAQ />
 
       <footer className="px-6 pb-12">
         <div className="max-w-6xl mx-auto text-xs text-neutral-400">

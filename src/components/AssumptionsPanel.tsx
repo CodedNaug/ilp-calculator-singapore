@@ -84,7 +84,7 @@ export default function AssumptionsPanel(props: Props) {
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
           >
             <option value="Typical ILP">Typical ILP</option>
-            <option value="GWA4">Great Eastern GWA4</option>
+            <option value="GWA4">Great Eastern GWA4 (Example)</option>
           </select>
         </label>
 
