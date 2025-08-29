@@ -90,23 +90,32 @@ export default function AssumptionsPanel(props: Props) {
 
         <label className="flex flex-col gap-1">
           <span className="text-sm text-neutral-400">Monthly Premium</span>
-          <input
-            type="number"
-            value={mpText}
-            placeholder="0"
-            onChange={(e) => {
-              const val = e.target.value;
-              setMpText(val);
-              if (val === "") {
-                setMonthlyPremium(0);
-              } else {
-                const num = Math.max(0, Number(val));
-                if (!Number.isNaN(num)) setMonthlyPremium(num);
-              }
-            }}
-            className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
-          />
+          <div className="relative">
+            <input
+              type="number"
+              value={mpText}
+              placeholder="0"
+              onChange={(e) => {
+                const val = e.target.value;
+                setMpText(val);
+                if (val === "") {
+                  setMonthlyPremium(0);
+                } else {
+                  const num = Math.max(0, Number(val));
+                  if (!Number.isNaN(num)) setMonthlyPremium(num);
+                }
+              }}
+              className="bg-neutral-800 rounded-xl pl-6 pr-3 py-2 outline-none w-full"
+            />
+            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-neutral-400 text-sm">
+              $
+            </span>
+          </div>
+          <span className="text-xs text-neutral-500">
+            How much you plan to pay every month into the policy.
+          </span>
         </label>
+
         <label className="flex flex-col gap-1">
           <span className="text-sm text-neutral-400">Years</span>
           <input
@@ -117,7 +126,7 @@ export default function AssumptionsPanel(props: Props) {
               const val = e.target.value;
               setYrsText(val);
               if (val === "") {
-                setYears(0); // treat empty as 0 until typed
+                setYears(0);
               } else {
                 const num = Math.min(50, Math.max(1, Number(val)));
                 if (!Number.isNaN(num)) setYears(num);
@@ -125,6 +134,7 @@ export default function AssumptionsPanel(props: Props) {
             }}
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
           />
+          <span className="text-xs text-neutral-500">For how many years you want to keep paying (e.g. 20 years).</span>
         </label>
 
         <label className="flex flex-col gap-1">
@@ -135,95 +145,98 @@ export default function AssumptionsPanel(props: Props) {
             className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
             disabled={productPreset !== "GWA4"}
           >
-            <option value={5}>Choice 5 — Premium bonus from Year 6, Loyalty from Year 10</option>
-            <option value={10}>Choice 10 — Premium bonus from Year 11, Loyalty from Year 10</option>
-            <option value={15}>Choice 15 — Premium bonus from Year 16, Loyalty from Year 15</option>
+            <option value={5}>Choice 5 — Bonuses start earlier</option>
+            <option value={10}>Choice 10 — Bonuses start mid-way</option>
+            <option value={15}>Choice 15 — Bonuses start later</option>
           </select>
           {productPreset !== "GWA4" && (
-            <span className="text-xs text-neutral-500">Plan Choice applies only to GWA4.</span>
+            <span className="text-xs text-neutral-500">Only applies if you picked GWA4.</span>
           )}
         </label>
 
         <div className="sm:col-span-2 border-t border-neutral-800 my-2" />
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">ILP Allocated in Year 1</span>
+          <span className="text-sm text-neutral-400">Money actually invested in Year 1</span>
           <InputPercent value={y1AllocPct} onChange={setY1AllocPct} />
-          <span className="text-xs text-neutral-500">Portion of premium actually invested in funds in Year 1.</span>
+          <span className="text-xs text-neutral-500">In the first year, what % of your money is really invested (rest kept as charges).</span>
         </label>
+
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">ILP Allocated in Year 2</span>
+          <span className="text-sm text-neutral-400">Money invested in Year 2</span>
           <InputPercent value={y2AllocPct} onChange={setY2AllocPct} />
         </label>
+
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">ILP Allocated Year 3+</span>
+          <span className="text-sm text-neutral-400">Money invested from Year 3 onwards</span>
           <InputPercent value={laterAllocPct} onChange={setLaterAllocPct} />
         </label>
 
         <div className="sm:col-span-2 border-t border-neutral-800 my-2" />
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">Welcome Bonus (Y1, % of invested)</span>
+          <span className="text-sm text-neutral-400">Welcome Bonus (Year 1)</span>
           <InputPercent value={welcomeBonusPct} onChange={setWelcomeBonusPct} />
-          <span className="text-xs text-neutral-500">
-            On 1st-year basic regular premiums only, up to 55% (≥ S$12k annual). No bonus on single premiums/top-ups. Paid as ILP units. REF: GWA4 offers 55% welcome bonus.
-          </span>
+          <span className="text-xs text-neutral-500">Extra “gift” units in your first year (e.g. up to 55% if you pay enough).</span>
         </label>
+
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">Campaign Bonus (Y1, % of invested)</span>
+          <span className="text-sm text-neutral-400">Campaign Bonus (Year 1)</span>
           <InputPercent value={campaignBonusPct} onChange={setCampaignBonusPct} />
+          <span className="text-xs text-neutral-500">Occasional promo bonus from the insurer.</span>
         </label>
 
         <div className="sm:col-span-2 border-t border-neutral-800 my-2" />
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">Headline Gross (Agent Illustration)</span>
+          <span className="text-sm text-neutral-400">What brochure/agent says (before fees)</span>
           <InputPercent value={headlineGrossPct} onChange={setHeadlineGrossPct} step={0.1} />
         </label>
 
-        {/* Read-only auto calculation */}
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">
-            ILP Net Return <span className="text-neutral-500">(auto)</span>
-          </span>
+          <span className="text-sm text-neutral-400">What you actually keep (auto after fees)</span>
           <InputPercent value={ilpNetReturnPct} onChange={setIlpNetReturnPct} step={0.1} readOnly />
-          <span className="text-xs text-neutral-500">
-            Computed as: Headline − {FUND_TER}% fund TER − {WRAPPER}% wrapper − {SPREAD}% trading/cash drag.
-          </span>
+          <span className="text-xs text-neutral-500">Calculated as brochure return minus fund/insurer costs.</span>
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">Term+ETF Net Return</span>
+          <span className="text-sm text-neutral-400">If you did Term + ETF instead</span>
           <InputPercent value={etfNetReturnPct} onChange={setEtfNetReturnPct} step={0.1} />
-          <span className="text-xs text-neutral-500">
-            Typical net return for investing in S&P500 = ~7–9%
-          </span>
+          <span className="text-xs text-neutral-500">Typical net return for S&P500 ETF ~7–9%/year.</span>
         </label>
+
         <label className="flex flex-col gap-1">
-          <span className="text-sm text-neutral-400">Monthly Term Plan Premium</span>
-          <input
-            type="number"
-            value={String(monthlyTermPremium)}
-            placeholder="0"
-            onChange={(e) => {
-              const val = e.target.value;
-              if (val === "") {
-                setMonthlyTermPremium(0);
-              } else {
-                setMonthlyTermPremium(Math.max(0, Number(val)));
-              }
-            }}
-            className="bg-neutral-800 rounded-xl px-3 py-2 outline-none"
-          />
+          <span className="text-sm text-neutral-400">Monthly Cost of Term Insurance</span>
+          <div className="relative">
+            <input
+              type="number"
+              value={String(monthlyTermPremium)}
+              placeholder="0"
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === "") {
+                  setMonthlyTermPremium(0);
+                } else {
+                  setMonthlyTermPremium(Math.max(0, Number(val)));
+                }
+              }}
+              className="bg-neutral-800 rounded-xl pl-6 pr-3 py-2 outline-none w-full"
+            />
+            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-neutral-400 text-sm">
+              $
+            </span>
+          </div>
           <span className="text-xs text-neutral-500">
-            A typical S$500k term life policy in Singapore costs about S$19–34/month, with actual premiums varying by age, health, gender, coverage, and term length.
+            A typical S$500k term life policy costs about S$19–34/month (varies by age/health).
           </span>
         </label>
+
+
         <div className="sm:col-span-2 border-t border-neutral-800 my-2" />
 
         <div className="flex gap-2">
           <button onClick={setOptimisticAgentPitch} className="px-3 py-2 rounded-xl border border-neutral-700 hover:bg-neutral-800">
-            Optimistic (9% Headline)
+            Optimistic (9% Brochure)
           </button>
           <button onClick={setConservativePitch} className="px-3 py-2 rounded-xl border border-neutral-700 hover:bg-neutral-800">
             Conservative
